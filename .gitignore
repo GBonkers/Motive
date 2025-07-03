@@ -42,4 +42,4 @@ next-env.d.ts
 
 # PowerPoint files
 *.pptx
-*.ppt
+*.ppt!/chiagojsmeetup_20240618.pptx

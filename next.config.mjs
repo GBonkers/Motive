@@ -4,7 +4,6 @@ const withSerwist = withSerwistInit({
     swSrc: "app/sw.ts",
     swDest: "public/sw.js",
     register: false, // we'll do this manually
-    cacheOnFrontEndNav: true,
 });
          
 export default withSerwist({
