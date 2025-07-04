@@ -21,7 +21,7 @@ const sampleEvents: Event[] = [
   {
     id: '1',
     title: 'Team Meeting',
-    date: new Date(2024, 11, 15),
+    date: new Date(2025, 6, 15),
     time: '10:00 AM',
     duration: '1 hour',
     location: 'Conference Room A',
@@ -31,7 +31,7 @@ const sampleEvents: Event[] = [
   {
     id: '2',
     title: 'Dentist Appointment',
-    date: new Date(2024, 11, 16),
+    date: new Date(2025, 6, 16),
     time: '2:00 PM',
     duration: '1 hour',
     location: 'Dental Clinic',
@@ -41,7 +41,7 @@ const sampleEvents: Event[] = [
   {
     id: '3',
     title: 'Birthday Party',
-    date: new Date(2024, 11, 20),
+    date: new Date(2025, 6, 20),
     time: '7:00 PM',
     duration: '3 hours',
     location: 'Home',
@@ -51,7 +51,7 @@ const sampleEvents: Event[] = [
   {
     id: '4',
     title: 'Flight to Paris',
-    date: new Date(2024, 11, 25),
+    date: new Date(2025, 6, 25),
     time: '8:30 AM',
     duration: '2 hours',
     location: 'Airport',
@@ -61,7 +61,7 @@ const sampleEvents: Event[] = [
   {
     id: '5',
     title: 'Yoga Class',
-    date: new Date(2024, 11, 18),
+    date: new Date(2025, 6, 18),
     time: '6:00 PM',
     duration: '1 hour',
     location: 'Fitness Center',
@@ -69,16 +69,6 @@ const sampleEvents: Event[] = [
     description: 'Evening yoga session'
   }
 ]
-
-// Event type configurations
-const eventTypes = {
-  work: { icon: '💼', color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-500/20', textColor: 'text-blue-400' },
-  social: { icon: '🎉', color: 'from-pink-500 to-pink-600', bgColor: 'bg-pink-500/20', textColor: 'text-pink-400' },
-  health: { icon: '🏥', color: 'from-green-500 to-green-600', bgColor: 'bg-green-500/20', textColor: 'text-green-400' },
-  travel: { icon: '✈️', color: 'from-purple-500 to-purple-600', bgColor: 'bg-purple-500/20', textColor: 'text-purple-400' },
-  education: { icon: '🎓', color: 'from-orange-500 to-orange-600', bgColor: 'bg-orange-500/20', textColor: 'text-orange-400' },
-  personal: { icon: '🏠', color: 'from-indigo-500 to-indigo-600', bgColor: 'bg-indigo-500/20', textColor: 'text-indigo-400' }
-}
 
 export default function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -117,24 +107,9 @@ export default function CalendarPage() {
     if (view === 'month') {
       const dayEvents = getEventsForDate(date)
       return (
-        <div className="relative">
-          {dayEvents.length > 0 && (
-            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
-              <div className="flex gap-0.5">
-                {dayEvents.slice(0, 2).map((event, index) => (
-                  <div
-                    key={event.id}
-                    className={`w-1.5 h-1.5 rounded-full ${eventTypes[event.type].bgColor}`}
-                    title={event.title}
-                  />
-                ))}
-                {dayEvents.length > 2 && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-500/50" title={`+${dayEvents.length - 2} more`} />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+        dayEvents.length > 0 && (
+          <span className="calendar-event-dot" />
+        )
       )
     }
     return null
@@ -157,34 +132,50 @@ export default function CalendarPage() {
   }
 
   // Custom navigation for mobile
-  const monthLabel = activeStartDate.toLocaleDateString(deviceLocale, { month: 'long', year: 'numeric' })
+  const monthLabel = activeStartDate.toLocaleDateString(deviceLocale, { month: 'long' })
+  const yearLabel = activeStartDate.getFullYear()
 
   return (
-    <div className="flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden animate-fade-in bg-gradient-dark">
-      {/* Minimal sticky calendar header */}
-      <div className="flex items-center justify-between px-2 py-2 bg-transparent sticky top-0 z-20">
-        <button
-          aria-label="Previous Month"
-          className="rounded-lg p-1 text-lg text-slate-400 hover:bg-white/10 active:scale-95 transition-all"
-          onClick={() => setActiveStartDate(new Date(activeStartDate.getFullYear(), activeStartDate.getMonth() - 1, 1))}
-        >
-          &lt;
-        </button>
-        <div className="text-base font-medium text-white select-none tracking-tight">
-          {monthLabel}
+    <div
+      className="fixed inset-0 flex flex-col animate-fade-in z-0 px-2 sm:px-4 md:px-8"
+      style={{
+        minHeight: '100dvh',
+        maxHeight: '100dvh',
+        overflowY: 'auto',
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 4.5rem)',
+        background: 'var(--color-background)',
+        color: 'var(--color-text-primary)',
+      }}
+    >
+      {/* Header */}
+      <div className="flex flex-col items-center justify-center pt-8 pb-2 relative">
+        <span style={{ color: 'var(--color-brand)' }} className="text-base font-semibold tracking-wide mt-2">Calendar</span>
+        <div className="flex items-center gap-6 mb-1 mt-1">
+          <button
+            aria-label="Previous Month"
+            className="w-9 h-9 flex items-center justify-center rounded-full text-accent-brown text-xl font-bold transition-all"
+            onClick={() => setActiveStartDate(new Date(activeStartDate.getFullYear(), activeStartDate.getMonth() - 1, 1))}
+            style={{ boxShadow: '0 2px 8px 0 rgba(236,72,153,0.10)' }}
+          >
+            &lt;
+          </button>
+          <h1 style={{ color: 'var(--color-brand)' }} className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-0 mt-0">{monthLabel}</h1>
+          <button
+            aria-label="Next Month"
+            className="w-9 h-9 flex items-center justify-center rounded-full text-accent-brown text-xl font-bold transition-all"
+            onClick={() => setActiveStartDate(new Date(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1, 1))}
+            style={{ boxShadow: '0 2px 8px 0 rgba(236,72,153,0.10)' }}
+          >
+            &gt;
+          </button>
         </div>
-        <button
-          aria-label="Next Month"
-          className="rounded-lg p-1 text-lg text-slate-400 hover:bg-white/10 active:scale-95 transition-all"
-          onClick={() => setActiveStartDate(new Date(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1, 1))}
-        >
-          &gt;
-        </button>
+        <span style={{ color: 'var(--color-text-secondary)' }} className="text-md font-medium mt-0 mb-0">{yearLabel}</span>
       </div>
 
-      {/* Calendar and events in a scrollable area */}
-      <div className="flex-1 overflow-y-auto px-0 pt-1 pb-24 flex flex-col min-h-0">
-        <div className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 p-0 mb-2 mx-2">
+      {/* Calendar grid */}
+      <div className="flex-1 flex flex-col w-full max-w-md mx-auto min-h-0 mt-4">
+        <div className="w-full max-w-full overflow-x-auto">
           <Calendar
             onChange={handleDateChange}
             value={selectedDate}
@@ -199,52 +190,110 @@ export default function CalendarPage() {
           />
         </div>
 
-        {/* Selected Date Events */}
-        <div className="flex-1 flex flex-col justify-start space-y-4 px-2 min-h-0">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
-            <h2 className="text-base font-semibold text-white tracking-tight">
-              {selectedDate.toLocaleDateString(deviceLocale, { 
-                weekday: 'long', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </h2>
-          </div>
-          {selectedDateEvents.length > 0 ? (
-            <div className="space-y-4 flex-1 flex flex-col justify-start">
-              {selectedDateEvents.map((event) => (
-                <div key={event.id} className="flex items-center gap-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 px-4 py-4 min-h-[84px]">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl ${eventTypes[event.type].bgColor}`}>{eventTypes[event.type].icon}</div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white truncate text-base">{event.title}</span>
-                      <span className={`w-2 h-2 rounded-full ${eventTypes[event.type].bgColor}`}></span>
+        {/* Separator line */}
+        <div
+          className="w-[92%] mx-auto border-t mt-6"
+          style={{ borderColor: 'var(--color-border)' }}
+        ></div>
+
+        {/* Event Card (now in flow) */}
+        {selectedDateEvents.length > 0 ? (
+          <div className="flex justify-center w-full px-2 sm:px-4 md:px-8 mt-4 mb-4">
+            <div className="w-full max-w-md">
+              {(() => {
+                const event = selectedDateEvents[0];
+                const avatars = [
+                  'https://randomuser.me/api/portraits/men/32.jpg',
+                  'https://randomuser.me/api/portraits/women/44.jpg',
+                  '/icon-512x512.png',
+                  'https://randomuser.me/api/portraits/men/32.jpg',
+                  'https://randomuser.me/api/portraits/women/44.jpg',
+                  '/icon-512x512.png',
+                ];
+                const maxAvatars = 3;
+                const extraCount = avatars.length - maxAvatars;
+                const visibleAvatars = avatars.slice(0, maxAvatars);
+                return (
+                  <div className="grid grid-rows-5 grid-cols-1">
+                    {/* Row 1: Title & Time */}
+                    <div className="flex flex-row items-center justify-between row-span-1">
+                      <div className="text-accent-brown text-xl sm:text-2xl md:text-3xl font-bold">
+                        {event.title}
+                      </div>
+                      <div className="text-accent-gold text-xl sm:text-2xl md:text-3xl ml-4 drop-shadow-sm">
+                        {event.time}
+                      </div>
                     </div>
-                    <div className="text-sm text-slate-400 mt-1 flex items-center gap-2">
-                      <span>{event.time}</span>
-                      <span>•</span>
-                      <span>{event.duration}</span>
-                      {event.location && <><span>•</span><span className="flex items-center gap-1"><span className="text-sm">📍</span><span className="truncate">{event.location}</span></span></>}
+                    {/* Row 2 & 3: Location, Group */}
+                    <div className="grid grid-cols-2 grid-rows-2 row-span-2">
+                      <div className="col-span-1 row-span-1 flex items-center">
+                        <span className="text-accent-cream text-base sm:text-lg md:text-xl font-medium">{event.location || 'Location'}</span>
+                      </div>
+                      <div className="col-span-1 row-span-2 flex items-center justify-end">
+                        {/* Empty, Join button moved below */}
+                      </div>
+                      <div className="col-span-1 row-span-1 flex items-center">
+                        <span className="text-accent-mauve text-sm sm:text-md md:text-lg font-normal">Group</span>
+                      </div>
                     </div>
-                    {event.description && (
-                      <div className="text-sm text-slate-500 mt-1 truncate">{event.description}</div>
-                    )}
+                    {/* Row 4: Avatars and Join button inline */}
+                    <div className="flex flex-row items-center justify-between row-span-2 mt-2">
+                      <div className="flex flex-row items-center">
+                        {visibleAvatars.map((src, idx) => (
+                          <div
+                            key={idx}
+                            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-4 border-accent-mauve -ml-3 first:ml-0 bg-accent-cream flex items-center justify-center overflow-hidden shadow"
+                            style={{ background: idx % 3 === 2 ? '#997654' : idx % 3 === 1 ? '#E5D1B7' : '#B8860B' }}
+                          >
+                            <img
+                              src={src}
+                              alt="avatar"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                        {extraCount > 0 && (
+                          <div
+                            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-4 border-accent-mauve -ml-3 bg-blue-400 flex items-center justify-center text-white font-bold text-lg shadow"
+                            style={{ background: '#3B82F6' }}
+                          >
+                            +{extraCount}
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        className="rounded-[10px] px-6 sm:px-10 md:px-14 py-2 text-xl sm:text-3xl md:text-4xl font-bold shadow-md ml-4 w-full sm:w-auto max-w-[160px]"
+                        style={{
+                          background: 'var(--color-brand)',
+                          color: 'var(--color-background)',
+                        }}
+                      >
+                        Join
+                      </button>
+                    </div>
                   </div>
-                  <button className="text-slate-400 hover:text-white transition-colors px-1 text-xl">
-                    ⋯
-                  </button>
-                </div>
-              ))}
+                );
+              })()}
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center rounded-xl bg-white/5 backdrop-blur-md border border-white/10 px-4 py-6 text-center mx-auto mt-4 w-full max-w-xs">
-              <div className="text-4xl mb-2">📅</div>
-              <div className="font-medium text-white mb-1 text-base">No Events</div>
-              <div className="text-sm text-slate-400">You have no events scheduled for this day</div>
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto mt-8">
+            <span style={{ color: 'var(--color-text-secondary)' }} className="mb-4 text-lg">No events for this day yet.</span>
+            <a
+              href="/create"
+              className="px-6 py-3 rounded-xl font-semibold shadow-md"
+              style={{
+                background: 'var(--color-brand)',
+                color: 'var(--color-background)',
+                textDecoration: 'none',
+                transition: 'background 0.2s',
+                fontSize: '1.1rem',
+              }}
+            >
+              + Add a Motive
+            </a>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -70,8 +70,8 @@ export default function BottomNavigation() {
     <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center items-end pointer-events-none">
       <div
         ref={navRef}
-        className="relative w-full flex items-end justify-between bg-white/10 dark:bg-slate-900/20 backdrop-blur-2xl rounded-t-2xl shadow-2xl border-t border-x border-white/20 dark:border-slate-700/30 px-0 pt-0 pb-4 pointer-events-auto"
-        style={{ marginBottom: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+        className="relative w-full flex items-end justify-between backdrop-blur-2xl rounded-t-2xl shadow-2xl border-t border-x px-0 pt-0 pb-4 pointer-events-auto"
+        style={{ marginBottom: 0, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, background: 'var(--color-background-dark)', borderTop: '1px solid var(--color-border)' }}
       >
         {/* Floating circle highlight */}
         {itemCenters.length === navItems.length && activeIndex !== -1 && (
@@ -82,9 +82,9 @@ export default function BottomNavigation() {
               left: itemCenters[activeIndex] - CIRCLE_SIZE / 2,
               width: CIRCLE_SIZE,
               height: CIRCLE_SIZE,
-              background: 'linear-gradient(135deg, #ec4899, #f97316)',
+              background: 'linear-gradient(135deg, var(--color-brand-light), var(--color-brand))',
               borderRadius: '50%',
-              boxShadow: '0 8px 32px rgba(236, 72, 153, 0.4), 0 4px 16px rgba(249, 115, 22, 0.3)',
+              boxShadow: '0 8px 32px rgba(140, 75, 38, 0.18), 0 4px 16px rgba(140, 75, 38, 0.10)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -105,10 +105,11 @@ export default function BottomNavigation() {
               key={item.href}
               className="flex-1 flex flex-col items-center justify-end relative min-w-0"
             >
-              <div className="nav-btn flex flex-col items-center justify-center w-full h-full z-10" style={{ minHeight: 72 }}>
+              <div className="nav-btn flex flex-col items-center justify-center w-full h-full z-10" style={{ minHeight: 72, color: isActive ? 'var(--color-brand)' : 'var(--color-text-primary)' }}>
                 {item.disabled ? (
                   <button
-                    className="w-full flex flex-col items-center text-slate-400 opacity-50 cursor-not-allowed py-2"
+                    className="w-full flex flex-col items-center opacity-50 cursor-not-allowed py-2"
+                    style={{ color: 'var(--color-border)' }}
                     disabled
                   >
                     <Icon className="w-6 h-6 mb-1" />
@@ -120,7 +121,7 @@ export default function BottomNavigation() {
                 ) : (
                   <Link
                     href={item.href}
-                    className="w-full flex flex-col items-center text-slate-300 hover:text-slate-100 transition-colors duration-200 py-2"
+                    className="w-full flex flex-col items-center transition-colors duration-200 py-2"
                   >
                     <Icon className="w-6 h-6 mb-1" />
                     <span className="text-xs text-center max-w-[80%] truncate">{item.label}</span>

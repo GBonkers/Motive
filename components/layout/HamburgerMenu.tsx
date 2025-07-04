@@ -10,10 +10,11 @@ export default function HamburgerMenu() {
       {/* Hamburger button */}
       <button
         aria-label="Open menu"
-        className="fixed top-4 left-4 z-50 bg-white/10 hover:bg-white/20 rounded-full p-2 backdrop-blur-md shadow-lg transition-all"
+        className="fixed top-4 left-4 z-50 rounded-full p-2 shadow-lg transition-all"
+        style={{ background: 'var(--color-accent-light)', color: 'var(--color-brand)' }}
         onClick={() => setOpen(true)}
       >
-        <Bars3Icon className="w-7 h-7 text-white" />
+        <Bars3Icon className="w-6 h-6" style={{ color: 'var(--color-brand)' }} />
       </button>
 
       {/* Sidebar overlay */}
@@ -25,25 +26,26 @@ export default function HamburgerMenu() {
             onClick={() => setOpen(false)}
           />
           {/* Sidebar drawer */}
-          <aside className="relative w-72 max-w-[80vw] h-full bg-gradient-to-b from-slate-900/95 to-slate-800/95 shadow-2xl p-6 flex flex-col">
+          <aside className="relative w-72 max-w-[80vw] h-full shadow-2xl p-6 flex flex-col" style={{ background: 'var(--color-background-dark)' }}>
             <button
               aria-label="Close menu"
-              className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 rounded-full p-2"
+              className="absolute top-4 right-4 rounded-full p-2"
+              style={{ background: 'var(--color-accent-light)', color: 'var(--color-brand)' }}
               onClick={() => setOpen(false)}
             >
-              <XMarkIcon className="w-6 h-6 text-white" />
+              <XMarkIcon className="w-6 h-6" style={{ color: 'var(--color-brand)' }} />
             </button>
             <div className="mt-10 mb-6">
-              <div className="text-xl font-bold text-white mb-2">Menu</div>
-              <div className="text-slate-400 text-sm">(Settings, profile, etc. coming soon)</div>
+              <div className="text-xl font-bold mb-2" style={{ color: 'var(--color-brand)' }}>Menu</div>
+              <div className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>(Settings, profile, etc. coming soon)</div>
             </div>
             {/* Placeholder links */}
             <nav className="flex flex-col gap-4 mt-8">
-              <button className="text-left text-white/90 hover:text-white font-medium py-2 px-3 rounded-lg transition-all bg-white/5 hover:bg-white/10">Profile</button>
-              <button className="text-left text-white/90 hover:text-white font-medium py-2 px-3 rounded-lg transition-all bg-white/5 hover:bg-white/10">Settings</button>
-              <button className="text-left text-white/90 hover:text-white font-medium py-2 px-3 rounded-lg transition-all bg-white/5 hover:bg-white/10">Logout</button>
+              <button className="text-left font-medium py-2 px-3 rounded-lg transition-all" style={{ color: 'var(--color-text-primary)', background: 'var(--color-accent-light)' }}>Profile</button>
+              <button className="text-left font-medium py-2 px-3 rounded-lg transition-all" style={{ color: 'var(--color-text-primary)', background: 'var(--color-accent-light)' }}>Settings</button>
+              <button className="text-left font-medium py-2 px-3 rounded-lg transition-all" style={{ color: 'var(--color-text-primary)', background: 'var(--color-accent-light)' }}>Logout</button>
             </nav>
-            <div className="mt-auto text-xs text-slate-500 pt-8">TheMotive v1.0.0</div>
+            <div className="mt-auto text-xs text-accent-cream pt-8">TheMotive v1.0.0</div>
           </aside>
         </div>
       )}

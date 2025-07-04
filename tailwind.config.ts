@@ -72,6 +72,32 @@ const config: Config = {
           'white/20': 'rgba(255, 255, 255, 0.2)',
           dark: 'rgba(10, 10, 20, 0.8)',
         },
+        brand: {
+          light: '#a0623d',
+          DEFAULT: '#8c4b26',
+          dark: '#7b3e1c',
+        },
+        accent: {
+          light: '#e7c9b0',
+          DEFAULT: '#d8b89e',
+          dark: '#c6ad8a',
+        },
+        background: {
+          light: '#fdf6ee',
+          DEFAULT: '#fff9f1',
+          dark: '#ede2d4',
+        },
+        text: {
+          primary: '#442c1c',
+          secondary: '#5c3e2e',
+        },
+        border: {
+          DEFAULT: '#d8b89e',
+          light: '#f2e7db',
+        },
+        tag: {
+          DEFAULT: '#a0623d',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
